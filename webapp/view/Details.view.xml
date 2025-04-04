@@ -1,0 +1,10 @@
+<mvc:View xmlns:smarttable="sap.ui.comp.smarttable" controllerName="crudoperation.controller.Details"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:smartfilterbar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable.SmartTable">
+    <Page id="details">
+    <Panel headerText="{i18n>appTitleDetails}"></Panel>
+    </Page>
+
+</mvc:View>

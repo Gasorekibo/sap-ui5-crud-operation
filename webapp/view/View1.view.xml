@@ -1,0 +1,119 @@
+<!-- ================ CRUD OPERATION WITH NORMAL TABLE CONTROL====== -->
+
+<mvc:View controllerName="crudoperation.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+    <Page id="page">
+    <Panel id="idPanel" headerText="{i18n>appTitle}">
+		<FlexBox alignItems="Center" justifyContent="SpaceBetween" height="4rem">
+			<HBox>
+            <Button text="Filter by Rating 4" press="onFilter" />
+            <Button class="sapUiSmallMarginBeginEnd" text="Sort by Price (Descending)" press="onSort" />
+            <Button text="Read Parameters (Skip 2, Top 5)" press="onReadParameters" />
+            <Button class="sapUiSmallMarginBeginEnd" text="Read Product by ID 4" press="onReadOneWithId" />
+        </HBox>
+        <HBox>
+            <Button class="sapUiSmallMarginBeginEnd" text="Read All" press="onReadAll" />
+            <Button press=".onShowDialog" text="Add New Product" icon="sap-icon://add" />
+            </HBox>
+		</FlexBox>
+    
+    <Table id="idProducts" items="{/results}"  noData="Please wait we are fetching data">
+     <columns>
+     <Column>
+     <Text text="ID"></Text>
+     </Column>
+     <Column>
+     <Text text="Name"></Text>
+     </Column>
+     <Column>
+     <Text text="Description"></Text>
+     </Column>
+     <Column>
+     <Text text="ReleaseDate"></Text>
+     </Column>
+     <Column>
+     <Text text="Rating"></Text>
+     </Column>
+     <Column>
+     <Text text="Price"></Text>
+     </Column>
+     <Column>
+     <Text text="Category"></Text>
+     </Column>
+     <Column>
+     <Text text="Supplier"></Text>
+     </Column>
+     <Column>
+     <Text text="Actions"></Text>
+     </Column>
+     </columns>
+     <items>
+     <ColumnListItem>
+        <cells>
+        <Text text="{ID}"></Text>
+        <Text text="{Name}"></Text>
+        <Text text="{Description}"></Text>
+        <Text text="{ReleaseDate}"></Text>
+        <Text text="{Rating}"></Text>
+        <Input value="{Price}" editable="false"/>
+        <Text text="{parts: [{path: 'Category/Name'}], formatter: '.formatCategories'}"/>
+        <Text text="{parts: [{path: 'Supplier/Name'}], formatter: '.formatSupplier'}"/>
+        </cells>
+        <HBox>
+            
+            <Button press=".onEdit" text="Edit" icon="sap-icon://edit"/>
+            <Button press=".onDelete" class="sapUiSmallMarginBeginEnd" type="Reject" icon="sap-icon://delete"/>
+
+        </HBox>
+     </ColumnListItem>
+     </items>
+    </Table>
+    </Panel>
+    </Page>
+</mvc:View>
+
+<!-- =============== Smart Filter with Smart Table  -->
+
+<!-- <mvc:View xmlns:smartfield="sap.ui.comp.smartfield" xmlns:smarttable="sap.ui.comp.smarttable" controllerName="crudoperation.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:smartfilterbar="sap.ui.comp.smartfilterbar"
+    xmlns:smartTable="sap.ui.comp.smarttable.SmartTable"
+    xmlns:smartField="sap.ui.comp.smartfield.SmartField">
+    
+    <Page id="page">
+    <Panel id="idPannel" headerText="{i18n>appTitle}">
+		<smartfilterbar:SmartFilterBar id="smartFilterId" entitySet="Products" showMessages="true" >
+            <smartfilterbar:controlConfiguration>
+                <smartfilterbar:ControlConfiguration id="productId" visibleInAdvancedArea="true" label="Product Id" key="ID"></smartfilterbar:ControlConfiguration>
+                <smartfilterbar:ControlConfiguration id="nameId" visibleInAdvancedArea="true" label="Name" key="Name"></smartfilterbar:ControlConfiguration>
+                <smartfilterbar:ControlConfiguration id="ratingId" visibleInAdvancedArea="true" label="Rating" key="Rating"></smartfilterbar:ControlConfiguration>
+                <smartfilterbar:ControlConfiguration id="priceId" visibleInAdvancedArea="true" label="Price" key="Price"></smartfilterbar:ControlConfiguration>
+                <smartfilterbar:ControlConfiguration id="catetoryId" visibleInAdvancedArea="true" label="Category" key="Categories/Name"></smartfilterbar:ControlConfiguration>
+                <smartfilterbar:ControlConfiguration id="supplierId" visibleInAdvancedArea="true" label="Suplier" key="Supplier/Name"></smartfilterbar:ControlConfiguration>
+                
+            </smartfilterbar:controlConfiguration>
+        </smartfilterbar:SmartFilterBar>
+        <smarttable:SmartTable 
+        id="smarttableId"
+         initialNoDataText="Wait while we are fetching the Data" 
+         smartFilterId="smartFilterId" 
+         exportType="UI5ClientPDF"
+         enableCopy="true" 
+         entitySet="Products" 
+         enableAutoBinding="true"
+         showFullScreenButton="true"
+         tableType="ResponsiveTable" 
+         initiallyVisibleFields="ID,Name,Rating,Price,Description,Categories/Name,Supplier/Name">
+        <Table id="idResponsiveTable" selectionChange="handleSelectionChange" mode="SingleSelectMaster">
+            
+        </Table>
+        </smarttable:SmartTable>
+        <smartfield:SmartField id="smartFieldId"></smartfield:SmartField>
+    </Panel>
+    </Page>
+
+</mvc:View> -->
+
+
+
