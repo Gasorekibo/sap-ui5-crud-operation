@@ -1,6 +1,5 @@
 <!-- ================ CRUD OPERATION WITH NORMAL TABLE CONTROL====== -->
-
-<mvc:View controllerName="crudoperation.controller.View1"
+<!-- <mvc:View controllerName="crudoperation.controller.View1"
     xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
     <Page id="page">
     <Panel id="idPanel" headerText="{i18n>appTitle}">
@@ -70,10 +69,8 @@
     </Table>
     </Panel>
     </Page>
-</mvc:View>
-
+</mvc:View> -->
 <!-- =============== Smart Filter with Smart Table  -->
-
 <!-- <mvc:View xmlns:smartfield="sap.ui.comp.smartfield" xmlns:smarttable="sap.ui.comp.smarttable" controllerName="crudoperation.controller.View1"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
@@ -115,5 +112,122 @@
 
 </mvc:View> -->
 
+
+<mvc:View
+    controllerName="crudoperation.controller.View1"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+>
+    <Page id="page">
+        <SplitContainer
+            id="idProducts"
+            initialDetail="detail"
+            initialMaster="master"
+        >
+            <masterPages>
+                <Page
+                    id="master"
+                    title="Product Name"
+                    backgroundDesign="List"
+                    showNavButton="true"
+                    navButtonPress=".onPressMasterBack"
+                    showFooter="true"
+                >
+                    <content>
+                    <Button text="Get All"  press="onReadAll"/>
+                        <List
+                            items="{/results}"
+                            noData="Please wait we are fetching data"
+                            itemPress=".onViewDetails"
+                        >
+                            <items>
+                                <StandardListItem
+                                    type="Navigation"
+                                    title="{Name}"
+                                />
+                            </items>
+                        </List>
+                    </content>
+                </Page>
+            </masterPages>
+            <detailPages>
+                <Page
+                    id="detail"
+                    title="Product Details"
+                    backgroundDesign="Solid"
+                >
+                    <content>
+                        <Table
+                            items="{/results}"
+                            noData="Please wait we are fetching data"
+                            id="productDetailTable"
+                        >
+                            <columns>
+                                <Column>
+                                    <Text text="ID" />
+                                </Column>
+                                <Column>
+                                    <Text text="Description" />
+                                </Column>
+                                <Column>
+                                    <Text text="ReleaseDate" />
+                                </Column>
+                                <Column>
+                                    <Text text="Rating" />
+                                </Column>
+                                <Column>
+                                    <Text text="Price" />
+                                </Column>
+                                <Column>
+                                    <Text text="Category" />
+                                </Column>
+                                <Column>
+                                    <Text text="Supplier" />
+                                </Column>
+                                <Column>
+                                    <Text text="Actions" />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{ID}" />
+                                        <Text text="{Description}" />
+                                        <Text text="{ReleaseDate}" />
+                                        <Text text="{Rating}" />
+                                        <Input
+                                            value="{Price}"
+                                            editable="false"
+                                        />
+                                        <Text
+                                            text="{parts: [{path: 'Category/Name'}], formatter: '.formatCategories'}"
+                                        />
+                                        <Text
+                                            text="{parts: [{path: 'Supplier/Name'}], formatter: '.formatSupplier'}"
+                                        />
+                                    </cells>
+                                    <HBox>
+                                        <Button
+                                            press=".onEdit"
+                                            text="Edit"
+                                            icon="sap-icon://edit"
+                                        />
+                                        <Button
+                                            press=".onDelete"
+                                            class="sapUiSmallMarginBeginEnd"
+                                            type="Reject"
+                                            icon="sap-icon://delete"
+                                        />
+                                    </HBox>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </content>
+                </Page>
+            </detailPages>
+        </SplitContainer>
+    </Page>
+</mvc:View>
 
 

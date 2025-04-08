@@ -332,6 +332,15 @@ sap.ui.define([
     
         onCancelPress: function () {
             this.createProductDialog.close(); 
-        }
+        },
+        onViewDetails: function(oEvent) {
+            const oListItem = oEvent.getParameter("listItem");
+            const oContext = oListItem.getBindingContext();
+            const oProduct = oContext.getObject();
+            console.log(oProduct)
+            const jModel = new JSONModel({ results: [oProduct] });
+            this.getView().byId("productDetailTable").setModel(jModel);
+        },
+        
     });
 });
