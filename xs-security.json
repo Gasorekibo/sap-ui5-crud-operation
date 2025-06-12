@@ -1,20 +1,10 @@
 {
-  "xsappname": "crud-operation",
-  "tenant-mode": "dedicated",
-  "description": "Security profile of called application",
-  "scopes": [
+  "authenticationMethod": "route",
+  "routes": [
     {
-      "name": "uaa.user",
-      "description": "UAA"
-    }
-  ],
-  "role-templates": [
-    {
-      "name": "Token_Exchange",
-      "description": "UAA",
-      "scope-references": [
-        "uaa.user"
-      ]
+      "source": "^/(.*)$",
+      "target": "$1",
+      "authenticationType": "xsuaa"
     }
   ]
 }

@@ -1,33 +1,36 @@
 {
   "name": "crud-operation",
-  "version": "0.0.1",
-  "description": "An SAP Fiori application.",
-  "keywords": [
-    "ui5",
-    "openui5",
-    "sapui5"
-  ],
-  "main": "webapp/index.html",
-  "dependencies": {},
-  "devDependencies": {
+  "version": "1.0.0",
+  "description": "CRUD Operation Fiori App",
+  "private": true,
+  "dependencies": {
+    "@sap/ux-ui5-tooling": "^1",
     "@ui5/cli": "^3.0.0",
-    "@sap/ux-ui5-tooling": "1",
-    "@sap-ux/ui5-middleware-fe-mockserver": "2"
+    "rimraf": "^5.0.0"
+  },
+  "devDependencies": {
+    "@sap-ux/ui5-middleware-fe-mockserver": "^2.2.96",
+    "@ui5/logger": "^3.0.0",
+    "cross-env": "^7.0.3",
+    "rimraf": "^5.0.0"
   },
   "scripts": {
-   "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist",
-    "build:mta": "rimraf mta_archives && mbt build",
-    "deploy:cf": "npm run build:mta && cf deploy mta_archives/crud-operation_1.0.0.mtar",
-    "build:zip": "npm run build && mkdir -p resources && cd dist && zip -r ../resources/crudoperation.zip . && cd ..",
     "start": "fiori run --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#crudoperation-display\"",
     "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#crudoperation-display\"",
-    "deploy": "fiori verify",
-    "deploy-config": "fiori add deploy-config",
+    "build": "ui5 build --clean-dest --dest dist",
+    "build:cf": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateCachebusterInfo",
+    "build:mta": "rimraf mta_archives && mbt build",
+    "deploy:cf": "npm run build:mta && cf deploy mta_archives/crud-operation_1.0.0.mtar",
     "start-noflp": "fiori run --open \"index.html?sap-ui-xx-viewCache=false\"",
-    "start-mock": "fiori run --config ./ui5-mock.yaml --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#crudoperation-display\"",
     "start-variants-management": "fiori run --open \"preview.html?sap-ui-xx-viewCache=false&fiori-tools-rta-mode=true&sap-ui-rta-skip-flex-validation=true#preview-app\"",
-    "unit-tests": "fiori run --config ./ui5-mock.yaml --open 'test/unit/unitTests.qunit.html'",
-    "int-tests": "fiori run --config ./ui5-mock.yaml --open 'test/integration/opaTests.qunit.html'"
+    "unit-tests": "fiori run --open 'test/unit/unitTests.qunit.html'",
+    "int-tests": "fiori run --open 'test/integration/opaTests.qunit.html'",
+    "lint": "eslint webapp test",
+    "ts-typecheck": "tsc --noEmit"
   },
-  "sapuxLayer": "CUSTOMER_BASE"
+  "ui5": {
+    "dependencies": [
+      "@sap/ux-ui5-tooling"
+    ]
+  }
 }
