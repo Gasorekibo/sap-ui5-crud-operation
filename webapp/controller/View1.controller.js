@@ -146,7 +146,7 @@ sap.ui.define([
         onEdit: function(oEvent) {
             const that = this;
             const btnReference = oEvent.getSource();
-            const inputReference = btnReference.getParent().getParent().getCells()[5];
+            const inputReference = btnReference.getParent().getParent().getCells()[4];
             const oModel = this.getOwnerComponent().getModel();
             oModel.setUseBatch(false);
             

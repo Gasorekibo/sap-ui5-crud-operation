@@ -1,0 +1,245 @@
+# _schema-version: '3.1'
+# ID: crud-operation
+# version: 1.0.0
+# description: CRUD Operation Fiori App
+# parameters:
+#   enable-parallel-deployments: true
+
+# build-parameters:
+#   before-all:
+#     - builder: custom
+#       commands:
+#         - npm ci
+#         - npm run build
+
+# modules:
+#   - name: crud-operation-destination-content
+#     type: com.sap.application.content
+#     requires:
+#       - name: crud-operation-destination-service
+#         parameters:
+#           content-target: true
+#       - name: crud-operation-repo-host
+#         parameters:
+#           service-key:
+#             name: crud-operation-repo-host-key
+#       - name: crud-operation-uaa
+#         parameters:
+#           service-key:
+#             name: crud-operation-uaa-key
+#     parameters:
+#       content:
+#         instance:
+#           destinations:
+#             - Name: crud-operation-app-host-service
+#               ServiceInstanceName: crud-operation-repo-host
+#               ServiceKeyName: crud-operation-repo-host-key
+#               sap.cloud.service: crud-operation
+#             - Authentication: OAuth2UserTokenExchange
+#               Name: crud-operation-uaa-service
+#               ServiceInstanceName: crud-operation-uaa
+#               ServiceKeyName: crud-operation-uaa-key
+#               sap.cloud.service: crud-operation
+#           existing_destinations_policy: ignore
+#     build-parameters:
+#       no-source: true
+
+#   - name: crud-operation
+#     type: html5
+#     path: .
+#     build-parameters:
+#       build-result: dist
+#       builder: custom
+#       commands:
+#         - npm install
+#         - npm run build
+#         - mkdir -p dist-zip
+#         - powershell -Command "Compress-Archive -Path dist\\* -DestinationPath dist-zip\\crudoperation.zip"
+#       supported-platforms: []
+
+#   - name: crud-operation-app-content
+#     type: com.sap.application.content
+#     path: .
+#     requires:
+#       - name: crud-operation-repo-host
+#         parameters:
+#           content-target: true
+#     build-parameters:
+#       build-result: dist-zip
+#       requires:
+#         - artifacts:
+#             - crudoperation.zip
+#           name: crud-operation
+#           target-path: resources/
+
+# resources:
+#   - name: crud-operation-destination-service
+#     type: org.cloudfoundry.managed-service
+#     parameters:
+#       config:
+#         HTML5Runtime_enabled: false
+#         init_data:
+#           instance:
+#             destinations:
+#               - Authentication: NoAuthentication
+#                 Name: ui5
+#                 ProxyType: Internet
+#                 Type: HTTP
+#                 URL: https://ui5.sap.com
+#             existing_destinations_policy: update
+#         version: 1.0.0
+#       service: destination
+#       service-name: crud-operation-destination-service
+#       service-plan: lite
+
+#   - name: crud-operation-uaa
+#     type: org.cloudfoundry.managed-service
+#     parameters:
+#       path: ./xs-security.json
+#       service: xsuaa
+#       service-name: crud-operation-uaa
+#       service-plan: application
+
+#   - name: crud-operation-repo-host
+#     type: org.cloudfoundry.managed-service
+#     parameters:
+#       service: html5-apps-repo
+#       service-name: crud-operation-repo-host
+#       service-plan: app-host
+
+
+#===================================
+
+_schema-version: '3.1'
+ID: crud-operation
+version: 1.0.0
+description: CRUD Operation Fiori App
+parameters:
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npm run build
+
+modules:
+  - name: crud-operation-approuter
+    type: approuter.nodejs
+    path: approuter
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+      keep-existing-routes: true
+    requires:
+      - name: crud-operation-repo-rt
+      - name: crud-operation-uaa
+      - name: crud-operation-destination-service
+        group: destinations
+        properties:
+          forwardAuthToken: false
+          name: ui5
+          url: https://ui5.sap.com
+
+  - name: crud-operation-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: crud-operation-destination-service
+        parameters:
+          content-target: true
+      - name: crud-operation-repo-host
+        parameters:
+          service-key:
+            name: crud-operation-repo-host-key
+      - name: crud-operation-uaa
+        parameters:
+          service-key:
+            name: crud-operation-uaa-key
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: crud-operation-app-host-service
+              ServiceInstanceName: crud-operation-repo-host
+              ServiceKeyName: crud-operation-repo-host-key
+              sap.cloud.service: crud-operation
+            - Authentication: OAuth2UserTokenExchange
+              Name: crud-operation-uaa-service
+              ServiceInstanceName: crud-operation-uaa
+              ServiceKeyName: crud-operation-uaa-key
+              sap.cloud.service: crud-operation
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+
+  - name: crud-operation
+    type: html5
+    path: .
+    build-parameters:
+      build-result: dist
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+        - rimraf dist-zip
+        - mkdir -p dist-zip
+        - powershell -Command "Compress-Archive -Path dist\\* -DestinationPath dist-zip\\crudoperation.zip -Force"
+      supported-platforms: []
+
+  - name: crud-operation-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: crud-operation-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: dist-zip
+      requires:
+        - artifacts:
+            - crudoperation.zip
+          name: crud-operation
+          target-path: resources/
+
+resources:
+  - name: crud-operation-destination-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        HTML5Runtime_enabled: true
+        init_data:
+          instance:
+            destinations:
+              - Authentication: NoAuthentication
+                Name: ui5
+                ProxyType: Internet
+                Type: HTTP
+                URL: https://ui5.sap.com
+            existing_destinations_policy: update
+        version: 1.0.0
+      service: destination
+      service-name: crud-operation-destination-service
+      service-plan: lite
+
+  - name: crud-operation-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-name: crud-operation-uaa
+      service-plan: application
+
+  - name: crud-operation-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: crud-operation-repo-host
+      service-plan: app-host
+
+  - name: crud-operation-repo-rt
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-name: crud-operation-repo-rt
+      service-plan: app-runtime

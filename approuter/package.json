@@ -1,0 +1,22 @@
+{
+  "name": "crud-operation-approuter",
+  "version": "1.0.0",
+  "description": "Application Router for CRUD Operation",
+  "main": "start.js",
+  "dependencies": {
+    "@sap/approuter": "^20.5.1"
+  },
+  "scripts": {
+    "start": "node node_modules/@sap/approuter/approuter.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "overrides": {
+    "@sap/approuter": {
+      "engines": {
+        "node": ">=18.0.0"
+      }
+    }
+  }
+}

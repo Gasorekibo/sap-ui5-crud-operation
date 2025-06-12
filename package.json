@@ -15,9 +15,12 @@
     "@sap-ux/ui5-middleware-fe-mockserver": "2"
   },
   "scripts": {
+   "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist",
+    "build:mta": "rimraf mta_archives && mbt build",
+    "deploy:cf": "npm run build:mta && cf deploy mta_archives/crud-operation_1.0.0.mtar",
+    "build:zip": "npm run build && mkdir -p resources && cd dist && zip -r ../resources/crudoperation.zip . && cd ..",
     "start": "fiori run --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#crudoperation-display\"",
     "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#crudoperation-display\"",
-    "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist",
     "deploy": "fiori verify",
     "deploy-config": "fiori add deploy-config",
     "start-noflp": "fiori run --open \"index.html?sap-ui-xx-viewCache=false\"",
