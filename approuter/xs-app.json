@@ -3,6 +3,24 @@
   "authenticationMethod": "none",
   "routes": [
     {
+      "source": "^/V2/(.*)$",
+      "target": "$1",
+      "destination": "odata-service",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/resources/(.*)$",
+      "target": "/resources/$1",
+      "destination": "ui5",
+      "csrfProtection": false
+    },
+    {
+      "source": "^/test-resources/(.*)$",
+      "target": "/test-resources/$1",
+      "destination": "ui5",
+      "csrfProtection": false
+    },
+    {
       "source": "^/(.*)$",
       "target": "/crudoperation/$1",
       "service": "html5-apps-repo-rt"

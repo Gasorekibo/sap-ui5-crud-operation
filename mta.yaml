@@ -17,9 +17,12 @@ modules:
     type: approuter.nodejs
     path: approuter
     parameters:
-     memory: 512M
-     disk-quota: 512M
-     keep-existing-routes: true
+      memory: 512M
+      disk-quota: 512M
+      keep-existing-routes: true
+    build-parameters:
+      includes:
+        - ["."]
     requires:
       - name: crud-operation-repo-rt
       - name: crud-operation-destination-service
