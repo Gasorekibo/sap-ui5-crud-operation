@@ -39,7 +39,7 @@ sap.ui.define([
             // Add $expand parameter to include related entities
             oModel.read("/Products", {
                 urlParameters: {
-                    "$expand": "Category,Supplier"
+                    "$expand": "Categories,Supplier"
                 },
                 success: function(odata) {
                     odata.results.forEach(result => {

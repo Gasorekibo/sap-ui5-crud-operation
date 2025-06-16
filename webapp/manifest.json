@@ -17,7 +17,7 @@
         },
         "dataSources": {
             "mainService": {
-                "uri": "/V2/(S(nil41yzxzofiqj5ibrgeta3u))/OData/OData.svc/",
+                "uri": "/V2/OData/OData.svc/",
                 "type": "OData",
                 "settings": {
                     "annotations": [],
@@ -71,8 +71,15 @@
             },
             "": {
                 "dataSource": "mainService",
+                "type": "sap.ui.model.odata.v2.ODataModel",
                 "preload": true,
-                "settings": {}
+                "settings": {
+                    "defaultOperationMode": "Server",
+                    "defaultBindingMode": "TwoWay",
+                    "defaultCountMode": "Request",
+                    "useBatch": true,
+                    "maxDataServiceVersion": "3.0"
+                }
             }
         },
         "resources": {
