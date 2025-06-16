@@ -62,7 +62,7 @@ sap.ui.define([
             oModel.read("/Products", {
                 filters: [oFilter],
                 urlParameters: {
-                    "$expand": "Category,Supplier"
+                    "$expand": "Categories,Supplier"
                 },
                 success: function(odata) {
                     odata.results.forEach(result => {
@@ -85,7 +85,7 @@ sap.ui.define([
             oModel.read("/Products", {
                 sorters: [oSort],
                 urlParameters: {
-                    "$expand": "Category,Supplier"
+                    "$expand": "Categories,Supplier"
                 },
                 success: function(odata) {
                     odata.results.forEach(result => {
@@ -106,7 +106,7 @@ sap.ui.define([
             const oparams = {
                 "$skip": 2,
                 "$top": 5,
-                "$expand": "Category,Supplier"
+                "$expand": "Categories,Supplier"
             };
             
             oModel.read("/Products", {
@@ -130,7 +130,7 @@ sap.ui.define([
             
             oModel.read("/Products(4)", {
                 urlParameters: {
-                    "$expand": "Category,Supplier"
+                    "$expand": "Categories,Supplier"
                 },
                 success: function(odata) {
                     odata.ReleaseDate = that.oDateFormatter.format(new Date(odata.ReleaseDate));
@@ -159,7 +159,9 @@ sap.ui.define([
                 const inputNewValue = inputReference.getValue();
                 const updatedDataId = btnReference.getBindingContext().getProperty("ID");
                 
-                oModel.update(`/Products(${updatedDataId})`, {Price: inputNewValue}, {
+                oModel.update(`/Products(${updatedDataId})`, {
+                     "@odata.type": "#ODataDemo.Product",
+                    Price: inputNewValue}, {
                     success: function(oData) {
                         MessageToast.show("Product Price Updated Successfully", {
                             my: "center top", 
@@ -337,9 +339,8 @@ sap.ui.define([
             const oListItem = oEvent.getParameter("listItem");
             const oContext = oListItem.getBindingContext();
             const oProduct = oContext.getObject();
-            console.log(oProduct)
             const jModel = new JSONModel({ results: [oProduct] });
-            this.getView().byId("productDetailTable").setModel(jModel);
+            this.getView().byId("idProducts").setModel(jModel);
         },
         
     });
